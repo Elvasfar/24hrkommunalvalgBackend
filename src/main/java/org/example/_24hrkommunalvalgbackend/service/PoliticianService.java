@@ -53,6 +53,10 @@ public class PoliticianService {
             return null;
         }
     }
+
+    public List<PoliticianDTO> getPoliticiansByPartyId(Long partyId) {
+        return politicianRepository.findByPartyId(partyId).stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
     private PoliticianDTO convertToDTO(Politician politician) {
         PoliticianDTO politicianDTO = new PoliticianDTO();
         politicianDTO.setId(politician.getId());

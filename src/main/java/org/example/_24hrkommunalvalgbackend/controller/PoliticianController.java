@@ -37,4 +37,9 @@ public class PoliticianController {
     public PoliticianDTO updatePolitician(@PathVariable Long id, @RequestBody PoliticianDTO politicianDTO) {
         return politicianService.updatePolitician(id, politicianDTO);
     }
+
+    @GetMapping("/party/{partyId}")
+    public List<PoliticianDTO> getPoliticiansByPartyId(@PathVariable Long partyId) {
+        return politicianService.getPoliticiansByPartyId(partyId);
+    }
 }
