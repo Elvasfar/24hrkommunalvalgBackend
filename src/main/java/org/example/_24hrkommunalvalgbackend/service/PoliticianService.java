@@ -2,17 +2,22 @@ package org.example._24hrkommunalvalgbackend.service;
 
 import org.example._24hrkommunalvalgbackend.dto.PoliticianDTO;
 import org.example._24hrkommunalvalgbackend.entity.Politician;
+import org.example._24hrkommunalvalgbackend.repository.PartyRepository;
 import org.example._24hrkommunalvalgbackend.repository.PoliticianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class PoliticianService {
     @Autowired
     private PoliticianRepository politicianRepository;
+
+    @Autowired
+    private PartyRepository partyRepository;
 
     public List<PoliticianDTO> getAllPoliticians() {
         return politicianRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
@@ -32,6 +37,22 @@ public class PoliticianService {
         politicianRepository.deleteById(id);
     }
 
+    public PoliticianDTO updatePolitician(Long id, PoliticianDTO politicianDTO) {
+        Optional<Politician> optionalPolitician = politicianRepository.findById(id);
+        if (optionalPolitician.isPresent()) {
+            Politician politician = optionalPolitician.get();
+            politician.setFirstName(politicianDTO.getFirstName());
+            politician.setLastName(politicianDTO.getLastName());
+            if (politicianDTO.getPartyId() != null) {
+                partyRepository.findById(politicianDTO.getPartyId()).ifPresent(politician::setParty);
+            }
+            Politician updatedPolitician = politicianRepository.save(politician);
+            return convertToDTO(updatedPolitician);
+        } else {
+            // Handle the case where the politician is not found, perhaps throw an exception
+            return null;
+        }
+    }
     private PoliticianDTO convertToDTO(Politician politician) {
         PoliticianDTO politicianDTO = new PoliticianDTO();
         politicianDTO.setId(politician.getId());
@@ -45,8 +66,9 @@ public class PoliticianService {
         Politician politician = new Politician();
         politician.setFirstName(politicianDTO.getFirstName());
         politician.setLastName(politicianDTO.getLastName());
-        // You should fetch the Party entity by id and set it here
-        // This requires you to have a reference to PartyRepository in this service
+        if (politicianDTO.getPartyId() != null) {
+            partyRepository.findById(politicianDTO.getPartyId()).ifPresent(politician::setParty);
+        }
         return politician;
     }
 }

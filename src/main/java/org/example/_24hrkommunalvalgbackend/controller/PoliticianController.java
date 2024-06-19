@@ -32,4 +32,9 @@ public class PoliticianController {
     public void deletePolitician(@PathVariable Long id) {
         politicianService.deletePolitician(id);
     }
+
+    @PutMapping("/{id}")
+    public PoliticianDTO updatePolitician(@PathVariable Long id, @RequestBody PoliticianDTO politicianDTO) {
+        return politicianService.updatePolitician(id, politicianDTO);
+    }
 }
