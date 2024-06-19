@@ -13,11 +13,13 @@ public class PartyController {
     @Autowired
     private PartyService partyService;
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping
     public List<PartyDTO> getAllParties() {
         return partyService.getAllParties();
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/{id}")
     public PartyDTO getPartyById(@PathVariable Long id) {
         return partyService.getPartyById(id);

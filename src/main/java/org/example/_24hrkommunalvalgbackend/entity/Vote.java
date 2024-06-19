@@ -1,14 +1,17 @@
 package org.example._24hrkommunalvalgbackend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Data
+@Table(name = "vote")
 public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

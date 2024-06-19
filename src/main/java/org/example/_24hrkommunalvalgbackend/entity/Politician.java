@@ -2,9 +2,16 @@ package org.example._24hrkommunalvalgbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Data
+@Table(name = "politician")
 public class Politician {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
